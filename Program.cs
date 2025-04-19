@@ -7,7 +7,7 @@ using System.ClientModel;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using RescourceCreatorFunction.Data;
+using ResourceCreatorFunction.Data;
 
 
 var builder = FunctionsApplication.CreateBuilder(args);

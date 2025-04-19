@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace RescourceCreatorFunction.Data
+namespace ResourceCreatorFunction.Data
 {
     public class ResourceCreatorDbContext : DbContext
     {
