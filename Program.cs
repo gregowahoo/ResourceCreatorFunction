@@ -4,35 +4,52 @@ using Azure.AI.OpenAI;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
 using System.ClientModel;
+using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using RescourceCreatorFunction.Data;
+
 
 var builder = FunctionsApplication.CreateBuilder(args);
 
 builder.ConfigureFunctionsWebApplication();
 
-// Application Insights isn't enabled by default. See https://aka.ms/AAt8mw4.
-// builder.Services
-//     .AddApplicationInsightsTelemetryWorkerService()
-//     .ConfigureFunctionsApplicationInsights();
-
 #region Chat Client Configuration
-// Chat client setup for Azure, GitHub, and OpenAI
+
+// Load configuration
+var configuration = builder.Configuration;
+
+#region MyRegion
+Console.WriteLine($"AI:Key: {configuration["AI:Key"]}");
+
+var logger = builder.Services.BuildServiceProvider().GetRequiredService<ILogger<Program>>();
+logger.LogInformation($"AI:Key: {configuration["AI:Key"]}"); 
+#endregion
+
+
+// Configure AzureOpenAIClient
 var innerChatClientAzure = new AzureOpenAIClient(
-    new Uri(builder.Configuration["AI:Endpoint"] ?? throw new InvalidOperationException("Missing AI:Endpoint")),
-    new ApiKeyCredential(builder.Configuration["AI:Key"] ?? throw new InvalidOperationException("Missing AI:Key")))
+    new Uri(configuration["AI:Endpoint"] ?? throw new InvalidOperationException("Missing AI:Endpoint")),
+    new ApiKeyCredential(configuration["AI:Key"] ?? throw new InvalidOperationException("Missing AI:Key")))
     .AsChatClient("gpt-35-turbo");
 
 var innerChatClientGithub = new AzureOpenAIClient(
-    new Uri(builder.Configuration["GithubAI:Endpoint"] ?? throw new InvalidOperationException("Missing GithubAI:Endpoint")),
-    new ApiKeyCredential(builder.Configuration["GithubAI:Key"] ?? throw new InvalidOperationException("Missing GithubAI:Key")))
-    .AsChatClient("gpt-4o");
+    new Uri(configuration["AI:Endpoint"] ?? throw new InvalidOperationException("Missing AI:Endpoint")),
+    new ApiKeyCredential(configuration["AI:Key"] ?? throw new InvalidOperationException("Missing AI:Key")))
+    .AsChatClient("gpt-35-turbo");
 
-var innerChatClientOpenAI = new OpenAI.Chat.ChatClient("gpt-4o-mini",
-    builder.Configuration["OpenAI:ApiKey"] ?? throw new InvalidOperationException("Missing OpenAI:ApiKey"))
-    .AsChatClient();
+var innerChatClientOpenAI = new AzureOpenAIClient(
+    new Uri(configuration["AI:Endpoint"] ?? throw new InvalidOperationException("Missing AI:Endpoint")),
+    new ApiKeyCredential(configuration["AI:Key"] ?? throw new InvalidOperationException("Missing AI:Key")))
+    .AsChatClient("gpt-35-turbo");
 
 //builder.Services.AddChatClient(innerChatClientAzure); // Azure-based GPT-3.5
 builder.Services.AddChatClient(innerChatClientGithub); // Azure-based GPT-3.5
 //builder.Services.AddChatClient(innerChatClientOpenAI); // “gpt-4o-mini” from OpenAI
 #endregion
+
+// Add DbContext with SQL Server
+builder.Services.AddDbContext<ResourceCreatorDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Build().Run();

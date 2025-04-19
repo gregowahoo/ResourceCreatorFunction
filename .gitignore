@@ -263,3 +263,16 @@ paket-files/
 __pycache__/
 *.pyc
 *.pubxml
+
+
+     # Ignore publish output
+     **/bin/Release/**/publish/
+     **/bin/Debug/**/publish/
+     **/obj/**/publish/
+     
+     # Ignore Azure Function publish artifacts
+     *.pubxml
+     *.pubxml.user
+     *-Zip Deploy*
+     serviceDependencies*.json
+     
