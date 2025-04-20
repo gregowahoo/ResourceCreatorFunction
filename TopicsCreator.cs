@@ -4,16 +4,16 @@ using Microsoft.Extensions.Logging;
 
 namespace ResourceCreatorFunction
 {
-    public class Function1
+    public class TopicsCreator
     {
         private readonly ILogger _logger;
 
-        public Function1(ILoggerFactory loggerFactory)
+        public TopicsCreator(ILoggerFactory loggerFactory)
         {
-            _logger = loggerFactory.CreateLogger<Function1>();
+            _logger = loggerFactory.CreateLogger<TopicsCreator>();
         }
 
-        [Function("Function1")]
+        [Function("TopicsCreator")]
         public void Run([TimerTrigger("0 */5 * * * *")] TimerInfo myTimer)
         {
             _logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
