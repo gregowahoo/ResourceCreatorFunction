@@ -265,14 +265,20 @@ __pycache__/
 *.pubxml
 
 
-     # Ignore publish output
-     **/bin/Release/**/publish/
-     **/bin/Debug/**/publish/
-     **/obj/**/publish/
+# Ignore publish output
+**/bin/Release/**/publish/
+**/bin/Debug/**/publish/
+**/obj/**/publish/
      
-     # Ignore Azure Function publish artifacts
-     *.pubxml
-     *.pubxml.user
-     *-Zip Deploy*
-     serviceDependencies*.json
-     
+# Ignore Azure Function publish artifacts
+*.pubxml
+*.pubxml.user
+*-Zip Deploy*
+serviceDependencies*.json
+
+
+# Ignore service dependencies
+Properties/serviceDependencies*.json
+Properties/storage*.json
+/Properties/ServiceDependencies/ResourceCreatorFunction20250419163951 - Zip Deploy
+/Properties/serviceDependencies.json
