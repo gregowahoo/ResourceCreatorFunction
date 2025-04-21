@@ -7,7 +7,6 @@ using System.ClientModel;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using ResourceCreatorFunction.Data;
 using WiseUpDude.Services;
 using WiseUpDude.Data.Repositories;
 using WiseUpDude.Data;
