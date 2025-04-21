@@ -63,20 +63,6 @@ namespace ResourceCreatorFunction
             {
                 _logger.LogError($"Failed to create TopicCreationRun: {ex.Message}");
             }
-
-            // Persist topics to the database using TopicRepository
-            foreach (var topic in topics)
-            {
-                try
-                {
-                    await _topicRepository.AddAsync(topic);
-                    _logger.LogInformation($"Successfully added topic: {topic.Name}");
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError($"Failed to add topic '{topic.Name}': {ex.Message}");
-                }
-            }
         }
     }
 }
