@@ -32,6 +32,10 @@
     <PackageReference Include="Microsoft.Extensions.AI" Version="9.3.0-preview.1.25161.3" />
     <PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="9.3.0-preview.1.25161.3" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\WiseUpDude.Data\WiseUpDude.Data.csproj" />
+    <ProjectReference Include="..\..\WiseUpDude.Services\WiseUpDude.Services.csproj" />
+  </ItemGroup>
   
   <ItemGroup>
     <None Update="host.json">
